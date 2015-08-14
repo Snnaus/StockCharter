@@ -24,10 +24,12 @@ angular.module('workspaceApp')
     };
     
     var lookupStocks = function(search){
-      search = JSON.stringify(search)
+      search = {
+        parameters: JSON.stringify(search)
+      };
       $.ajax({
         data: search,
-        url: "https://dev.markitondemand.com/Api/v2/InteractiveChart/jsonp",
+        url: "http://dev.markitondemand.com/Api/v2/InteractiveChart/jsonp",
         dataType: 'jsonp',
         context: this,
         success: function(result){

@@ -1,27 +1,45 @@
 'use strict';
 
 angular.module('workspaceApp')
-  .controller('MainCtrl', function ($scope, $http, socket) {
-    $scope.awesomeThings = [];
-
-    $http.get('/api/things').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
-      socket.syncUpdates('thing', $scope.awesomeThings);
-    });
-
-    $scope.addThing = function() {
-      if($scope.newThing === '') {
-        return;
-      }
-      $http.post('/api/things', { name: $scope.newThing });
-      $scope.newThing = '';
+  .controller('MainCtrl', function ($scope, $http) {
+    $scope.stockSearch = {
+      Normalized: false,
+      NumberOfDays: 15,
+      DataPeriod: 'Day',
+      Elements: []
     };
-
-    $scope.deleteThing = function(thing) {
-      $http.delete('/api/things/' + thing._id);
+    
+    $scope.stocks = {};
+    $scope.addStock = '';
+    
+    $scope.addElement = function(input, obj){
+      input = input.toUpperCase()
+      obj.Elements.push({
+        Symbol: input,
+        Type: 'price',
+        Params: ['c']
+      });
+      
+      lookupStocks(obj);
     };
-
-    $scope.$on('$destroy', function () {
-      socket.unsyncUpdates('thing');
-    });
+    
+    var lookupStocks = function(search){
+      search = JSON.stringify(search)
+      $.ajax({
+        data: search,
+        url: "https://dev.markitondemand.com/Api/v2/InteractiveChart/jsonp",
+        dataType: 'jsonp',
+        context: this,
+        success: function(result){
+          if(!result || result.Message){
+            console.error("Error: ", result.Message);
+          }
+          $scope.stocks = result;
+        },
+        error: function(response,txtStatus){
+            console.log(response,txtStatus);
+        }
+        
+      });
+    };
   });

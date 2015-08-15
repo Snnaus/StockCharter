@@ -74,7 +74,6 @@ angular.module('workspaceApp')
             })
         };
           $('#container').highcharts(graph);
-          console.log(graph);
           $scope.showGraph = true;
         }
       }
@@ -88,8 +87,12 @@ angular.module('workspaceApp')
     $scope.removeStock = function(stockSym, search){
       var index = search.Elements.map(function(stock){return stock.Symbol}).indexOf(stockSym);
       var garbage = search.Elements.splice(index, 1);
-      lookupStocks(search);
-      console.log(search, $scope.stocks);
+      if(search.Elements.length){
+        lookupStocks(search);
+      }else{
+        $scope.showGraph = false;
+        $scope.stocks = {};
+      }
     };
     
   });

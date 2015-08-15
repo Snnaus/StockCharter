@@ -4,7 +4,7 @@ angular.module('workspaceApp')
   .controller('MainCtrl', function ($scope, $http, $interval) {
     $scope.stockSearch = {
       Normalized: false,
-      NumberOfDays: 15,
+      NumberOfDays: 150,
       DataPeriod: 'Day',
       Elements: []
     };
@@ -12,6 +12,7 @@ angular.module('workspaceApp')
     $scope.stocks = {};
     $scope.addStock = '';
     $scope.currStocks = [];
+    $scope.showGraph = false;
     
     $scope.addElement = function(input, obj, stocks){
       if(input){
@@ -40,6 +41,7 @@ angular.module('workspaceApp')
             console.error("Error: ", result.Message);
           }
           $scope.stocks = result;
+          $scope.currStocks = [];
         },
         error: function(response,txtStatus){
             console.log(response,txtStatus);
@@ -59,10 +61,7 @@ angular.module('workspaceApp')
               type: 'line'
             },
             title: {
-              text: "Stock prices over the last 15 days"
-            },
-            xAxis: {
-              categories: input.Elements.map(function(ele){ return ele.Symbol })
+              text: "Stock prices over the last 150 days"
             },
             yAxis: {
               title: "Price"
@@ -75,6 +74,8 @@ angular.module('workspaceApp')
             })
         };
           $('#container').highcharts(graph);
+          console.log(graph);
+          $scope.showGraph = true;
         }
       }
     };
@@ -83,4 +84,12 @@ angular.module('workspaceApp')
     $scope.$on('$destroy', function(){
       $interval.cancel(timer);
     });
+    
+    $scope.removeStock = function(stockSym, search){
+      var index = search.Elements.map(function(stock){return stock.Symbol}).indexOf(stockSym);
+      var garbage = search.Elements.splice(index, 1);
+      lookupStocks(search);
+      console.log(search, $scope.stocks);
+    };
+    
   });

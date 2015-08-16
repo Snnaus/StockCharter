@@ -5,7 +5,7 @@
   
     <div class='row'>
       <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2' ng-repeat='stock in stockSearch.Elements'>{{stock.Symbol}}
-          <span class="glyphicon glyphicon-remove delStock" aria-hidden="true" ng-click='removeStock(stock.Symbol, stockSearch)'></span>
+          <span class="glyphicon glyphicon-remove delStock" aria-hidden="true" ng-click='removeStock(stock.Symbol, saveStocks)'></span>
       </div>
     </div>
     

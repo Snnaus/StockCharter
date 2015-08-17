@@ -102,7 +102,7 @@ angular.module('workspaceApp')
               type: 'line'
             },
             title: {
-              text: "Stock prices over the last 150 days"
+              text: "Recent stock prices"
             },
             yAxis: {
               title: "Price"

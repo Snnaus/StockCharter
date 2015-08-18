@@ -1,22 +1,25 @@
 <div class="container">
-    <div class='row'>
-      <div id="container" style="width:100%; height:400px;" ng-show='showGraph'></div>
-      <div style="width:100%; height:400px;" ng-show='!showGraph'></div>
+  <div class='row'>
+    <h1 class='text-center'>Recent Stock Prices</h1>
+  </div>
+  <div class='row'>
+    <div id="container" style="width:100%; height:400px;" ng-show='showGraph'></div>
+    <div style="width:100%; height:400px;" ng-show='!showGraph'></div>
+  </div>
+
+  <div class='row'>
+    <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2' ng-repeat='stock in stockSearch.Elements'>{{stock.Symbol}}
+        <span class="glyphicon glyphicon-remove delStock" aria-hidden="true" ng-click='removeStock(stock.Symbol, saveStocks)'></span>
     </div>
+  </div>
   
-    <div class='row'>
-      <div class='col-lg-2 col-md-2 col-sm-2 col-xs-2' ng-repeat='stock in stockSearch.Elements'>{{stock.Symbol}}
-          <span class="glyphicon glyphicon-remove delStock" aria-hidden="true" ng-click='removeStock(stock.Symbol, saveStocks)'></span>
-      </div>
-    </div>
-    
-    <div class='row'>
-        <form ng-submit='addElement(addStock, stockSearch, stocks)' class='text-center'>
-          <div class='form-group'>
-            <input id=addInput type=text placeholder='Add Stock Symbol' ng-model='addStock'>
-            <button class='btn btn-default'>Add Stock</button>
-          </div>
-        </form>
-    </div>
-    
+  <div class='row'>
+      <form ng-submit='addElement(addStock, stockSearch, stocks)' class='text-center'>
+        <div class='form-group'>
+          <input id=addInput type=text placeholder='Add Stock Symbol' ng-model='addStock'>
+          <button class='btn btn-default'>Add Stock</button>
+        </div>
+      </form>
+  </div>
+  
 </div>
